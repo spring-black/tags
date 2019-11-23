@@ -2,4 +2,4 @@ gradle*
 .gradle
 build
 out
-#.idea
+.idea

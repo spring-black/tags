@@ -1,0 +1,73 @@
+gradle.allprojects {
+
+    ext.bump = { mode ->
+
+        def versionFile = file('version.properties')
+        def build = new Properties()
+
+        versionFile.withReader {
+
+            build.load(it)
+
+        }
+
+        build[mode] = (Integer.parseInt(build[mode]) + 1).toString()
+
+        System.out.println 'Bumping to "' + build
+
+        versionFile.withWriter { build.store(it, "This file is now managed by gradle!") }
+
+    }
+
+    ext.getVersion = {
+
+        def versionFile = file('version.properties')
+        def build = new Properties()
+
+        versionFile.withReader {
+
+            build.load(it)
+
+        }
+
+        return build.MAJOR + '.' + build.MINOR + '.' + build.PATCH
+
+    }
+
+    task('bump major') {
+
+        group = 'versioning'
+
+        doLast {
+
+            bump('MAJOR')
+
+        }
+
+    }
+
+    task('bump minor') {
+
+        group = 'versioning'
+
+        doLast {
+
+            bump('MINOR')
+
+        }
+
+    }
+
+    task('bump patch') {
+
+        group = 'versioning'
+
+        doLast {
+
+            bump('PATCH')
+
+        }
+
+    }
+
+}

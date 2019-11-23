@@ -23,12 +23,13 @@ plugins {
 
 }
 
+apply from: 'versioning.gradle'
+group = 'spring.black'
+version = ext.getVersion()
+
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.bmuschko.nexus'
-
-group = 'spring.black'
-version = '0.0.1'
 
 configurations {
 
@@ -53,7 +54,7 @@ repositories {
 
     maven {
 
-        url System.getenv('NEXUS_BASE') ?: 'https://nexus.matthewdavis.io/repository/spring.black/nexus/content/repositories/releases'
+        url System.getenv('NEXUS_BASE') ?: 'https://nexus.matthewdavis.io/repository/spring.black'
 
     }
 
@@ -75,14 +76,16 @@ nexus {
 
     sign = false
 
-    repositoryUrl = System.getenv('NEXUS_BASE') ?: 'https://nexus.matthewdavis.io/repository/spring.black/nexus/content/repositories/releases'
+    repositoryUrl = System.getenv('NEXUS_BASE') ?: 'https://nexus.matthewdavis.io/repository/spring.black'
 
 }
 
 dependencies {
 
     implementation group: 'spring.black', name: 'common', version: '0.0.1'
+    implementation group: 'spring.black', name: 'identity', version: '0.0.2'
 
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
