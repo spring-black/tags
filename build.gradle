@@ -4,11 +4,18 @@ buildscript {
 
         jcenter()
 
+        maven {
+
+            url System.getenv('NEXUS_BASE') ?: 'https://nexus.matthewdavis.io/repository/gradle.plugins'
+
+        }
+
     }
 
     dependencies {
 
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath group: 'gradle.plugins', name: 'versionest', version: '0.0.23'
 
     }
 
@@ -23,9 +30,9 @@ plugins {
 
 }
 
-apply from: 'versioning.gradle'
+apply plugin: 'versionest'
 group = 'spring.black'
-version = ext.getVersion()
+version = getCurrentVersion()
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
